@@ -35,13 +35,12 @@ contains
   IMPLICIT NONE
   ! input
   REAL(DP), INTENT(IN)                   :: dt          ! model time step
-  REAL(DP), INTENT(IN)                   :: fshape      ! shapef parameter in gamma distribution
-  REAL(DP), INTENT(IN)                   :: tscale      ! time scale parameter
+  REAL(DP), INTENT(IN)                   :: fshape      ! shape parameter in gamma distribution
+  REAL(DP), INTENT(IN)                   :: tscale      ! time scale parameter in gamma distribution
   ! output
   INTEGER(I4B), INTENT(OUT)              :: IERR        ! error code
   CHARACTER(*), INTENT(OUT)              :: MESSAGE     ! error message
   ! locals
-  REAL(DP)                               :: alamb       ! scale parameter
   REAL(DP)                               :: ntdh_min    ! minimum number of time delay points
   REAL(DP)                               :: ntdh_max    ! maximum number of time delay points
   REAL(DP)                               :: ntdh_try    ! trial number of time delay points
@@ -57,10 +56,9 @@ contains
   ! initialize error control
   ierr=0; message='basinUH/'
   ! use a Gamma distribution with shape parameter, fshape, and time parameter, tscale, input
-  alamb = fshape/tscale                  ! scale parameter
   ! find the desired number of future time steps
   ! check if the cummulative Gamma distribution is close to 1.00 for given model time step, tscale and fsahpe.
-  X_VALUE = alamb*dt
+  X_VALUE = dt/tscale 
   cumprob = gammp(fshape, X_VALUE)
   if(cumprob > 0.999_dp) then ! in case if the cumprob is close to 1 in one model time step
    ntdh_try = 1.999_dp
@@ -69,7 +67,7 @@ contains
    ntdh_max = 1000._dp
    ntdh_try = 0.5_dp*(ntdh_min + ntdh_max)
    do itry=1,maxtry
-    x_value = alamb*dt*ntdh_try
+    x_value = dt*ntdh_try/tscale
     cumprob = gammp(fshape, x_value)
     !print*, tscale, ntdh_try, cumprob, x_value, itry
     if(cumprob < 0.99_dp)  ntdh_min = ntdh_try
@@ -89,7 +87,7 @@ contains
   PSAVE = 0.                                                 ! cumulative probability at JTIM-1
   DO JTIM=1,NTDH
    TFUTURE            = REAL(JTIM, kind(dp))*DT       ! future time
-   CUMPROB            = gammp(fshape,alamb*TFUTURE)   ! cumulative probability at JTIM
+   CUMPROB            = gammp(fshape,TFUTURE/tscale)   ! cumulative probability at JTIM
    FRAC_FUTURE(JTIM)  = MAX(0._DP, CUMPROB-PSAVE)     ! probability between JTIM-1 and JTIM
    PSAVE              = CUMPROB                       ! cumulative probability at JTIM-1
    !WRITE(*,'(I5,1X,F20.5,1X,2(F11.5))') JTIM, TFUTURE, FRAC_FUTURE(JTIM), CUMPROB
