@@ -238,8 +238,8 @@ implicit none
   real(dp)                                   :: H06_D_Nov      ! Hanasaki 2006; Average November  demand [m3/s]
   real(dp)                                   :: H06_D_Dec      ! Hanasaki 2006; Average December  demand [m3/s]
   integer(i4b)                               :: H06_purpose    ! Hanasaki 2006; reservoir purpose; (0= non-irrigation, 1=irrigation) [-]
-  integer(i4b)                               :: H06_I_mem_F    ! Hanasaki 2006; Flag to transition to modelled inflow [-]
-  integer(i4b)                               :: H06_D_mem_F    ! Hanasaki 2006; Flag to transition to modelled/provided demand [-]
+  logical(lgt)                               :: H06_I_mem_F    ! Hanasaki 2006; Flag to transition to modelled inflow [-]
+  logical(lgt)                               :: H06_D_mem_F    ! Hanasaki 2006; Flag to transition to modelled/provided demand [-]
   integer(i4b)                               :: H06_I_mem_L    ! Hanasaki 2006; Memory length in years for inflow [year]
   integer(i4b)                               :: H06_D_mem_L    ! Hanasaki 2006; Memory length in years for demand [year]
  end type RCHPRP

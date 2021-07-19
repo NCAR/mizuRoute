@@ -414,7 +414,7 @@ end subroutine augment_ntopo
    RPARAM_in(iSeg)%R_SLOPE         = max(structSEG(iSeg)%var(ixSEG%slope)%dat(1), min_slope)
    RPARAM_in(iSeg)%R_MAN_N         =     structSEG(iSeg)%var(ixSEG%man_n)%dat(1)
    RPARAM_in(iSeg)%R_WIDTH         =     structSEG(iSeg)%var(ixSEG%width)%dat(1)
-   
+
    if (is_lake_sim) then
      RPARAM_in(iSeg)%D03_MaxStorage  =     structSEG(iSeg)%var(ixSEG%D03_MaxStorage)%dat(1)
      RPARAM_in(iSeg)%D03_Coefficient =     structSEG(iSeg)%var(ixSEG%D03_Coefficient)%dat(1)
@@ -455,12 +455,12 @@ end subroutine augment_ntopo
      RPARAM_in(iSeg)%H06_D_Nov       =     structSEG(iSeg)%var(ixSEG%H06_D_Nov)%dat(1)
      RPARAM_in(iSeg)%H06_D_Dec       =     structSEG(iSeg)%var(ixSEG%H06_D_Dec)%dat(1)
      RPARAM_in(iSeg)%H06_purpose     =     structSEG(iSeg)%var(ixSEG%H06_purpose )%dat(1)
-     RPARAM_in(iSeg)%H06_I_mem_F     =     structSEG(iSeg)%var(ixSEG%H06_I_mem_F )%dat(1)
-     RPARAM_in(iSeg)%H06_D_mem_F     =     structSEG(iSeg)%var(ixSEG%H06_D_mem_F )%dat(1)
+     RPARAM_in(iSeg)%H06_I_mem_F     =     (structSEG(iSeg)%var(ixSEG%H06_I_mem_F)%dat(1)==1)
+     RPARAM_in(iSeg)%H06_D_mem_F     =     (structSEG(iSeg)%var(ixSEG%H06_D_mem_F)%dat(1)==1)
      RPARAM_in(iSeg)%H06_I_mem_L     =     structSEG(iSeg)%var(ixSEG%H06_I_mem_L )%dat(1)
      RPARAM_in(iSeg)%H06_D_mem_L     =     structSEG(iSeg)%var(ixSEG%H06_D_mem_L )%dat(1)
    end if
-   
+
    ! compute variables
    RPARAM_in(iSeg)%BASAREA = structSEG(iSeg)%var(ixSEG%basArea)%dat(1)
    RPARAM_in(iSeg)%UPSAREA = structSEG(iSeg)%var(ixSEG%upsArea)%dat(1)
